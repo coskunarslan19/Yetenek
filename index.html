@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#818cf8">
+    <title>🎵 Müzik Yetenek Sınavı - AI Destekli</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style-minimal.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎹 Müzik Yetenek Sınavı</h1>
+            <p>AI Destekli Nota Tanıma & Eğitim Platformu</p>
+        </header>
+
+        <!-- Tab Navigation -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="single">Tek Ses</button>
+            <button class="tab-btn" data-tab="interval">İki Ses</button>
+            <button class="tab-btn" data-tab="triad">Üç Ses</button>
+            <button class="tab-btn" data-tab="quad">Dört Ses</button>
+        </div>
+
+        <!-- Single Note Tab -->
+        <div id="single-tab" class="tab-content active">
+                <!-- Tuner Card -->
+                <div class="card tuner-card">
+                    <div class="pitch-meter">
+                        <canvas id="pitchCanvas" width="900" height="300"></canvas>
+                    </div>
+                </div>
+
+                <!-- Info Cards Row -->
+                <div class="info-row">
+                    <div class="info-card">
+                        <div class="info-label">Hedef</div>
+                        <div class="info-main" id="targetNote">-</div>
+                        <div class="info-sub" id="targetFreq">-</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">Algılanan</div>
+                        <div class="info-main" id="detectedNote">-</div>
+                        <div class="info-sub" id="detectedFreq">-</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">Fark</div>
+                        <div class="info-main" id="difference">-</div>
+                    </div>
+                </div>
+
+                <!-- Controls Card -->
+                <div class="card">
+                    <div class="controls" style="justify-content: center;">
+                        <button id="playBtn" class="btn btn-primary">
+                            <span class="icon">▶️</span>
+                            Rastgele Nota Çal
+                        </button>
+                        <button id="replayBtn" class="btn btn-secondary" disabled>
+                            <span class="icon">↻</span>
+                            Tekrar Çal
+                        </button>
+                        <button id="startListenBtn" class="btn btn-success">
+                            <span class="icon">🎙️</span>
+                            Dinlemeye Başla
+                        </button>
+                        <button id="stopListenBtn" class="btn btn-danger" disabled>
+                            <span class="icon">⏸️</span>
+                            Durdur
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interval Tab -->
+            <div id="interval-tab" class="tab-content">
+                <!-- Tuner Card -->
+                <div class="card tuner-card">
+                    <div class="pitch-meter">
+                        <canvas id="intervalPitchCanvas" width="900" height="300"></canvas>
+                    </div>
+                </div>
+
+                <!-- Info Cards Row -->
+                <div class="info-row">
+                    <div class="info-card">
+                        <div class="info-label">Alt Nota</div>
+                        <div class="info-main" id="intervalNote1">-</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">Üst Nota</div>
+                        <div class="info-main" id="intervalNote2">-</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">Aralık</div>
+                        <div class="info-main" id="intervalName">-</div>
+                    </div>
+                </div>
+
+                <!-- Controls Card -->
+                <div class="card">
+                    <div class="controls" style="justify-content: center;">
+                        <button id="playIntervalBtn" class="btn btn-primary">
+                            <span class="icon">🎵</span>
+                            Rastgele İki Ses
+                        </button>
+                        <button id="replayIntervalBtn" class="btn btn-secondary" disabled>
+                            <span class="icon">↻</span>
+                            Tekrar Çal
+                        </button>
+                        <button id="playSequentialBtn" class="btn btn-secondary">
+                            <span class="icon">⏭️</span>
+                            Sırayla Çal
+                        </button>
+                        <button id="startIntervalListenBtn" class="btn btn-success">
+                            <span class="icon">🎙️</span>
+                            Dinle
+                        </button>
+                        <button id="stopIntervalListenBtn" class="btn btn-danger" disabled>
+                            <span class="icon">⏸️</span>
+                            Durdur
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Triad Tab -->
+            <div id="triad-tab" class="tab-content">
+                <!-- Tuner Card -->
+                <div class="card tuner-card">
+                    <div class="pitch-meter">
+                        <canvas id="triadPitchCanvas" width="900" height="300"></canvas>
+                    </div>
+                </div>
+
+                <!-- Info Cards Row -->
+                <div class="info-row">
+                    <div class="info-card">
+                        <div class="info-label">1. Nota</div>
+                        <div class="info-main" id="triadNote1">-</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">2. Nota</div>
+                        <div class="info-main" id="triadNote2">-</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">3. Nota</div>
+                        <div class="info-main" id="triadNote3">-</div>
+                    </div>
+                </div>
+
+                <!-- Chord Name -->
+                <div class="card">
+                    <div style="text-align: center;">
+                        <div style="font-size: 0.9em; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Akor Tipi</div>
+                        <div id="triadName" style="font-size: 2em; font-weight: bold; color: #667eea;">-</div>
+                    </div>
+                </div>
+
+                <!-- Controls Card -->
+                <div class="card">
+                    <div class="controls" style="justify-content: center;">
+                        <button id="playTriadBtn" class="btn btn-primary">
+                            <span class="icon">🎼</span>
+                            Rastgele Üç Ses
+                        </button>
+                        <button id="replayTriadBtn" class="btn btn-secondary" disabled>
+                            <span class="icon">↻</span>
+                            Tekrar Çal
+                        </button>
+                        <button id="playTriadSequentialBtn" class="btn btn-secondary">
+                            <span class="icon">⏭️</span>
+                            Sırayla Çal
+                        </button>
+                        <button id="startTriadListenBtn" class="btn btn-success">
+                            <span class="icon">🎙️</span>
+                            Dinle
+                        </button>
+                        <button id="stopTriadListenBtn" class="btn btn-danger" disabled>
+                            <span class="icon">⏸️</span>
+                            Durdur
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quad Tab -->
+            <div id="quad-tab" class="tab-content">
+                <!-- Tuner Card -->
+                <div class="card tuner-card">
+                    <div class="pitch-meter">
+                        <canvas id="quadPitchCanvas" width="900" height="300"></canvas>
+                    </div>
+                </div>
+
+                <!-- Info Cards Row -->
+                <div class="info-row">
+                    <div class="info-card">
+                        <div class="info-label">1. Nota</div>
+                        <div class="info-main" id="quadNote1">-</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">2. Nota</div>
+                        <div class="info-main" id="quadNote2">-</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">3. Nota</div>
+                        <div class="info-main" id="quadNote3">-</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">4. Nota</div>
+                        <div class="info-main" id="quadNote4">-</div>
+                    </div>
+                </div>
+
+                <!-- Chord Name -->
+                <div class="card">
+                    <div style="text-align: center;">
+                        <div style="font-size: 0.9em; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Akor Tipi</div>
+                        <div id="quadName" style="font-size: 2em; font-weight: bold; color: #667eea;">-</div>
+                    </div>
+                </div>
+
+                <!-- Controls Card -->
+                <div class="card">
+                    <div class="controls" style="justify-content: center;">
+                        <button id="playQuadBtn" class="btn btn-primary">
+                            <span class="icon">🎼</span>
+                            Rastgele Dört Ses
+                        </button>
+                        <button id="replayQuadBtn" class="btn btn-secondary" disabled>
+                            <span class="icon">↻</span>
+                            Tekrar Çal
+                        </button>
+                        <button id="playQuadSequentialBtn" class="btn btn-secondary">
+                            <span class="icon">⏭️</span>
+                            Sırayla Çal
+                        </button>
+                        <button id="startQuadListenBtn" class="btn btn-success">
+                            <span class="icon">🎙️</span>
+                            Dinle
+                        </button>
+                        <button id="stopQuadListenBtn" class="btn btn-danger" disabled>
+                            <span class="icon">⏸️</span>
+                            Durdur
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>💡 <strong>İpucu:</strong> Mikrofon izni gereklidir. Tarayıcınız mikrofon erişimi isteyecektir.</p>
+            <p>🎤 Erkek sesler için: 2 oktava kadar aşağıdan söylemek de doğru kabul edilir.</p>
+            <p style="margin-top: 16px; font-weight: 600; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">🤖 AI Destekli Nota Tanıma Teknolojisi</p>
+        </footer>
+    </div>
+
+    <script src="ai-module.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

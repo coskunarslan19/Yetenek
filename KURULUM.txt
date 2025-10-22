@@ -1,0 +1,47 @@
+========================================
+MÜZİK YETENEK SINAVI UYGULAMASI
+========================================
+
+DOSYALAR:
+---------
+✓ index.html - Ana sayfa
+✓ style.css - Stil dosyası
+✓ app.js - JavaScript kodu
+✓ manifest.json - PWA yapılandırması
+✓ README.md - Uygulama açıklaması
+✓ APK_OLUSTURMA.md - APK oluşturma rehberi
+✓ KURULUM.txt - Bu dosya
+
+KULLANIM:
+---------
+1. Tüm dosyaları bir klasöre çıkarın
+2. index.html dosyasını tarayıcıda açın
+3. Mikrofon izni verin
+4. Uygulamayı kullanın
+
+ÖZELLIKLER:
+-----------
+✓ Tek ses modu (A3-E5 arası notalar)
+✓ İki ses modu (aralık tanıma)
+✓ Gerçek zamanlı pitch detection
+✓ Görsel tuner
+✓ Skor takibi
+✓ Oktav toleransı (erkek sesler için)
+
+APK OLUŞTURMA:
+--------------
+APK_OLUSTURMA.md dosyasını okuyun.
+En kolay yöntem: PWA Builder (pwabuilder.com)
+
+GEREKSINIMLER:
+--------------
+✓ Modern tarayıcı (Chrome, Firefox, Edge)
+✓ Mikrofon
+✓ HTTPS veya localhost (mikrofon için)
+
+DESTEK:
+-------
+Sorun yaşarsanız README.md dosyasına bakın.
+
+İyi kullanımlar!
+========================================

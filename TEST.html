@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Müzik Yetenek Sınavı</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .test-box {
+            background: white;
+            color: #333;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            min-height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-box">
+        <h1>🎵 Uygulama Test Sayfası</h1>
+        <p>Bu sayfa uygulamanın temel özelliklerini test eder.</p>
+        
+        <h2>Test 1: AI Module</h2>
+        <button onclick="testAIModule()">AI Modülü Test Et</button>
+        
+        <h2>Test 2: Audio</h2>
+        <button onclick="testAudio()">Ses Çal (440 Hz - A4)</button>
+        
+        <h2>Test 3: Mikrofon</h2>
+        <button onclick="testMicrophone()">Mikrofon Erişimi Test Et</button>
+        
+        <div id="result">
+            <strong>Sonuç:</strong> Test başlatılmadı
+        </div>
+    </div>
+
+    <script src="ai-module.js"></script>
+    <script>
+        function showResult(message, isSuccess = true) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `<strong>${isSuccess ? '✅' : '❌'} Sonuç:</strong> ${message}`;
+            resultDiv.style.background = isSuccess ? '#d4edda' : '#f8d7da';
+            resultDiv.style.color = isSuccess ? '#155724' : '#721c24';
+        }
+
+        function testAIModule() {
+            try {
+                const ai = new MusicAI();
+                showResult('AI Modülü başarıyla yüklendi! ✅', true);
+                console.log('AI Module:', ai);
+            } catch (error) {
+                showResult('AI Modülü HATA: ' + error.message, false);
+                console.error('AI Error:', error);
+            }
+        }
+
+        function testAudio() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.frequency.value = 440; // A4
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + 1);
+                
+                showResult('Ses çalındı! (440 Hz - A4 notası) 🎵', true);
+            } catch (error) {
+                showResult('Ses çalma HATA: ' + error.message, false);
+                console.error('Audio Error:', error);
+            }
+        }
+
+        async function testMicrophone() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                showResult('Mikrofon erişimi başarılı! 🎤', true);
+                stream.getTracks().forEach(track => track.stop());
+            } catch (error) {
+                showResult('Mikrofon erişimi HATA: ' + error.message, false);
+                console.error('Microphone Error:', error);
+            }
+        }
+    </script>
+</body>
+</html>
